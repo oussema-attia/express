@@ -20,11 +20,15 @@ router.get('/:id', (req, res, next) => {
     .then(server => res.status(200).json(server))
     .catch(error => res.status(404).json({ error }));
 });
-router.put('/', (req, res) => {
-  res.send('Got a PUT request at /user')
+router.put('/:id', (req, res) => {
+  Server.updateOne({ _id: req.params.id }, { ...req.body, _id: req.params.id })
+    .then(server => res.status(200).json(server))
+    .catch(error => res.status(400).json({ error }));
 })
-router.delete('/', (req, res) => {
-  res.send('Got a DELETE request at /user')
+router.delete('/:id', (req, res) => {
+  Server.deleteOne({ _id: req.params.id })
+    .then(() => res.status(200).json({ message: 'Server deleted !'}))
+    .catch(error => res.status(400).json({ error }));
 })
 
 module.exports = router;
