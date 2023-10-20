@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
+const Server = require('../models/Server');
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   // res.send('respond with a resource');
@@ -26,10 +26,17 @@ router.get('/', function(req, res, next) {
 });
 router.post('/', (req, res) => {
   // res.send('Got a POST request')
-  console.log(req.body);
-  res.status(201).json({
-    message: 'Objet créé !'
+  // console.log(req.body);
+  // res.status(201).json({
+  //   message: 'Objet créé !'
+  // });
+  delete req.body._id;
+  const server = new Server({
+    ...req.body
   });
+  server.save()
+    .then(() => res.status(201).json({ message: 'Objet enregistré !'}))
+    .catch(error => res.status(400).json({ error }));
 })
 router.put('/', (req, res) => {
   res.send('Got a PUT request at /user')
