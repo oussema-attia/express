@@ -23,7 +23,7 @@ router.get("/:id", (req, res, next) => {
 });
 router.put("/:id", (req, res) => {
   Server.updateOne({ _id: req.params.id }, { ...req.body, _id: req.params.id })
-    .then((server) => res.status(200).json(server))
+    .then(() => res.status(200).json({ message: "Server updated !" }))
     .catch((error) => res.status(400).json({ error }));
 });
 router.delete("/:id", (req, res) => {
