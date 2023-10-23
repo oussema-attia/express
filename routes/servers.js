@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 const serverCtrl = require("../controllers/server");
+const auth = require('../middleware/auth');
 
 router.get("/", serverCtrl.getAllServers);
 
