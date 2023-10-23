@@ -5,7 +5,7 @@ const Server = require("../models/Server");
 const getServerResponse = (server) => {
   return {
     id: server._id,
-    title: server.title,
+    name: server.name,
     description: server.description,
     isActive: server.isActive,
   };
