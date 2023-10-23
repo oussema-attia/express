@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 const Server = require("../models/Server");
 
-const useFormatServer = (server) => {
+const getServerResponse = (server) => {
   return {
     id: server._id,
     title: server.title,
@@ -16,7 +16,7 @@ router.get("/", function (req, res, next) {
   Server.find()
     .then((servers) => {
       const roots = servers.map((server) => {
-        return useFormatServer(server);
+        return getServerResponse(server);
       });
       res.status(200).json(roots);
     })
@@ -29,13 +29,13 @@ router.post("/", (req, res) => {
   });
   server
     .save()
-    .then((server) => res.status(201).json(useFormatServer(server)))
+    .then((server) => res.status(201).json(getServerResponse(server)))
     .catch((error) => res.status(400).json({ error }));
 });
 
 router.get("/:id", (req, res, next) => {
   Server.findOne({ _id: req.params.id })
-    .then((server) => res.status(200).json(useFormatServer(server)))
+    .then((server) => res.status(200).json(getServerResponse(server)))
     .catch((error) => res.status(404).json({ error }));
 });
 router.put("/:id", (req, res) => {
