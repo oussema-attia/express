@@ -1,22 +1,21 @@
+require("dotenv").config();
 var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
-
 var indexRouter = require("./routes/index");
 var serversRouter = require("./routes/servers");
 
 var app = express();
-const username = encodeURIComponent("oussemadesigner");
-const password = encodeURIComponent("ooj2h2WiCqdYrMSx");
-const uri =
-  "mongodb+srv://" +
-  username +
-  ":" +
-  password +
-  "@cluster0.ptolvaq.mongodb.net/?retryWrites=true&w=majority";
+// connect to mongodb
+const username = encodeURIComponent(process.env.USER_NAME);
+const password = encodeURIComponent(process.env.PASSWORD);
+const cluster = encodeURIComponent(process.env.CLUSTER);
+
+let uri = `mongodb+srv://${username}:${password}@${cluster}/?retryWrites=true&w=majority`;
+
 mongoose
   .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("Connexion à MongoDB réussie !"))
