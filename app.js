@@ -5,8 +5,9 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
-var indexRouter = require("./routes/index");
-var serversRouter = require("./routes/servers");
+const indexRouter = require("./routes/index");
+const serversRouter = require("./routes/servers");
+const userRouter = require('./routes/user');
 
 var app = express();
 // connect to mongodb
@@ -18,8 +19,8 @@ let uri = `mongodb+srv://${username}:${password}@${cluster}/?retryWrites=true&w=
 
 mongoose
   .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log("Connexion à MongoDB réussie !"))
-  .catch(() => console.log("Connexion à MongoDB échouée !"));
+  .then(() => console.log("Connection to MongoDB successful!"))
+  .catch(() => console.log("Connection to MongoDB failed!"));
 
 // fix cors error
 app.use((req, res, next) => {
@@ -46,7 +47,7 @@ app.use("/static", express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/servers", serversRouter);
-
+app.use('/auth', userRouter);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
